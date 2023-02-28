@@ -12,7 +12,7 @@ export class App extends Component {
     ],
     // name: '',
   };
-  formSubmitHendler = contacts => {
+  addContact = contacts => {
     console.log(contacts);
     const contact = {
       name: contacts.name,
@@ -33,7 +33,7 @@ export class App extends Component {
     const { contacts } = this.state;
     return (
       <>
-        <ContactForm onSubmit={this.formSubmitHendler} />
+        <ContactForm onSubmit={this.addContact} />
 
         <ContactList contacts={contacts} onDeleteContact={this.deleteContact} />
       </>
