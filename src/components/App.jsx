@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import Notiflix from 'notiflix';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
+import { nanoid } from 'nanoid';
+import ContactFilter from './ContactFilter';
 
 export class App extends Component {
   state = {
@@ -10,17 +13,27 @@ export class App extends Component {
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
-    // name: '',
+    filter: '',
   };
+
   addContact = contacts => {
     console.log(contacts);
     const contact = {
       name: contacts.name,
       number: contacts.number,
+      id: nanoid(),
     };
     this.setState(prevState => ({
       contacts: [...prevState.contacts, contact],
     }));
+  };
+  checkContactUnique = (name) => {
+    const { contacts } = this.state;
+    const findContact = !!contacts.find(
+      (contact) => contact.name.toLowerCase() === name.toLowerCase()
+    );
+    findContact && Notiflix.Notify.failure(`${name} is already in contacts`);
+    return !findContact;
   };
 
   deleteContact = contactId => {
@@ -33,8 +46,13 @@ export class App extends Component {
     const { contacts } = this.state;
     return (
       <>
-        <ContactForm onSubmit={this.addContact} />
-
+        <h1>Phonebook</h1>
+        <ContactForm
+          onSubmit={this.addContact}
+          onCheckUnique={this.checkContactUnique}
+        />
+        <h2>Contacts</h2>
+        <ContactFilter />
         <ContactList contacts={contacts} onDeleteContact={this.deleteContact} />
       </>
     );

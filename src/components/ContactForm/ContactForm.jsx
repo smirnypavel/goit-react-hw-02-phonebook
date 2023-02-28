@@ -1,14 +1,13 @@
 import { Component } from 'react';
-// import { nanoid } from 'nanoid';
 
 class ContactForm extends Component {
   state = {
-    name: ' ',
-    number: ' ',
+    name: '',
+    number: '',
   };
-
   hendleChange = evt => {
     const { name, value } = evt.currentTarget;
+
     this.setState({ [name]: value });
   };
 
@@ -16,11 +15,24 @@ class ContactForm extends Component {
     evt.preventDefault();
     console.log(this.state);
     this.props.onSubmit(this.state);
+    const isValidated = this.validate();
+    if (!isValidated) return;
 
     this.reset();
   };
+
   reset = () => {
-    this.setState({ name: ' ', number: ' ' });
+    this.setState({ name: '', number: '' });
+  };
+
+  validate = () => {
+    const { name, number } = this.state;
+    const { onCheckUnique } = this.props;
+    if (!name || !number) {
+      alert('Some field is empty');
+      return false;
+    }
+    return onCheckUnique(name);
   };
 
   render() {
