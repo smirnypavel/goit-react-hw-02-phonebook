@@ -1,25 +1,23 @@
-import { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import styles from './ContactFilter.module.css';
 
-class ContactFilter extends Component {
-  state = {
-    filter: '',
-  };
-  hendleFilterChange = evt => {
-    this.setState({ filter: evt.currentTarget.value });
-  };
+const ContactFilter = ({ filter, onChange }) => {
+  return (
+    <input
+      type="text"
+      name="filter"
+      value={filter}
+      onChange={({ target }) => onChange(target.value)}
+      placeholder="..to find"
+      className={styles.input}
+    />
+  );
+};
 
-  render() {
-    return (
-      <div>
-        <p>Find contacts by name</p>
-        <input
-          type="text"
-          value={this.state.filter}
-          onChange={this.hendleFilterChange}
-        />
-      </div>
-    );
-  }
-}
+ContactFilter.propTypes = {
+  filter: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default ContactFilter;
