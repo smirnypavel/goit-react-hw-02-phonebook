@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from './ContactList.module.css';
+import { TbTrashX } from "react-icons/tb";
 
 const ContactList = ({ contacts, onDeleteContact }) => (
   <ul className={styled.ul}>
@@ -15,7 +16,7 @@ const ContactList = ({ contacts, onDeleteContact }) => (
           onClick={() => onDeleteContact(id)}
           className={styled.button}
         >
-          remove
+          <TbTrashX/>
         </button>
       </li>
     ))}
