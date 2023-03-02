@@ -1,27 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { TbTrash as TrashIcon } from 'react-icons/tb';
 import styled from './ContactList.module.css';
-import { TbTrashX } from "react-icons/tb";
 
 const ContactList = ({ contacts, onDeleteContact }) => (
   <ul className={styled.ul}>
     {contacts.map(({ id, name, number }) => (
       <li key={id} className={styled.li}>
-        <p>
-          {name} <br />
+        <>
+          {name}
+          <br />
           {number}
-        </p>
+        </>
         <button
           type="button"
           onClick={() => onDeleteContact(id)}
           className={styled.button}
         >
-          <TbTrashX/>
+          <TrashIcon />
         </button>
       </li>
     ))}
   </ul>
 );
+
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
