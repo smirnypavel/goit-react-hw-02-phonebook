@@ -18,32 +18,26 @@ export class App extends Component {
 
   addContact = ({ name, number }) => {
     const { contacts } = this.state;
-
-    const isNameUnique = contacts.every(
-      contact => contact.name.toLowerCase() !== name.toLowerCase()
-    );
-
-    const isNumberUnique = contacts.every(contact => contact.number !== number);
-
-    if (isNameUnique && isNumberUnique) {
-      const newContact = {
-        name,
-        number,
-        id: nanoid(),
-      };
-
-      Notiflix.Notify.success(`${name} is added to contacts`);
-
-      this.setState(prevState => ({
-        contacts: [...prevState.contacts, newContact],
-      }));
-    } else {
-      const message = isNameUnique
-        ? `Number ${number} is already in contacts`
-        : `${name} is already in contacts`;
-
-      Notiflix.Notify.failure(message);
+    const newContact = {
+      name,
+      number,
+      id: nanoid(),
+    };
+    if (
+      contacts.find(
+        contact =>
+          contact.name.toLowerCase() === name.toLowerCase() ||
+          contacts.find(contact => contact.number === number)
+      )
+    ) {
+      return Notiflix.Notify.failure(
+        `${name} ${number} is already in contacts`
+      );
     }
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, newContact],
+    }));
+    Notiflix.Notify.success(`${name} is added to contacts`);
   };
 
   deleteContact = contactId => {
@@ -52,8 +46,7 @@ export class App extends Component {
     }));
   };
 
-  handleFilterChange = event => {
-    const { value } = event.currentTarget;
+  handleFilterChange = value => {
     this.setState({ filter: value });
   };
 
@@ -82,5 +75,4 @@ export class App extends Component {
     );
   }
 }
-
 export default App;
